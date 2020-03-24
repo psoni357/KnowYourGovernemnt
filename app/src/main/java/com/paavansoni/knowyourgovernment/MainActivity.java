@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -42,8 +43,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        Toast.makeText(this, "Selected an option", Toast.LENGTH_SHORT).show();
-        return true;
+        switch (item.getItemId()){
+            case R.id.about:
+                //launch activity
+                Intent intent = new Intent(this, AboutActivity.class);
+                startActivity(intent);
+                return true;
+
+            case R.id.loctionSearch:
+                //do search
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     @Override
