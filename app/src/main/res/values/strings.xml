@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Know Your Government</string>
+    <string name="aboutpage">aboutPage</string>
+    <string name="searchlocation">searchLocation</string>
+    <string name="separator">separator</string>
+    <string name="bottomseperator">bottomSeperator</string>
 </resources>
