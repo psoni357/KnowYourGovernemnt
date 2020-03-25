@@ -4,12 +4,12 @@
 
     <item
         android:id="@+id/about"
-        android:icon="@android:drawable/ic_dialog_info"
+        android:icon="@drawable/help"
         android:title="@string/aboutpage"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/loctionSearch"
-        android:icon="@android:drawable/ic_menu_search"
+        android:icon="@drawable/location"
         android:title="@string/searchlocation"
         app:showAsAction="ifRoom" />
 </menu>

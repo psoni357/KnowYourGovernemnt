@@ -1,6 +1,8 @@
 package com.paavansoni.knowyourgovernment;
 
-public class Politician {
+import java.io.Serializable;
+
+public class Politician implements Serializable {
     private String office;//basic info
     private String name;
     private String party;

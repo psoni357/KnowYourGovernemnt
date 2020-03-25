@@ -52,6 +52,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             case R.id.loctionSearch:
                 //do search
+
                 return true;
 
             default:
@@ -62,6 +63,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View v) {
         Toast.makeText(this, "You made a short click", Toast.LENGTH_SHORT).show();
+        Intent intent2 = new Intent(this, OfficialActivity.class);
+        startActivity(intent2);
     }
 
     @Override
