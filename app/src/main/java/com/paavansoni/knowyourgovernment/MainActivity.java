@@ -1,24 +1,49 @@
 package com.paavansoni.knowyourgovernment;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.Manifest;
+import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.location.Address;
+import android.location.Criteria;
+import android.location.Geocoder;
+import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
+import android.text.InputFilter;
+import android.text.InputType;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.Toast;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
+
+import static android.content.pm.PackageManager.PERMISSION_GRANTED;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, View.OnLongClickListener{
 
     private final List<Politician> politicianList = new ArrayList<>();
+    private static final String KEY = "AIzaSyB3z2KXWxAdNc6ahwrHih_bL390HiAP4qY";
     private RecyclerView recyclerView;
     private PoliticianAdapter mAdapter;
+
+    private static int MY_LOCATION_REQUEST_CODE_ID = 329;
+    private LocationManager locationManager;
+    private Criteria criteria;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +53,53 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mAdapter = new PoliticianAdapter(politicianList, this);
         recyclerView.setAdapter(mAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+
+        criteria = new Criteria();
+
+        // gps
+        criteria.setPowerRequirement(Criteria.POWER_HIGH);
+        criteria.setAccuracy(Criteria.ACCURACY_FINE);
+
+        // network
+        //criteria.setPowerRequirement(Criteria.POWER_LOW);
+        //criteria.setAccuracy(Criteria.ACCURACY_MEDIUM);
+
+
+        criteria.setAltitudeRequired(false);
+        criteria.setBearingRequired(false);
+        criteria.setSpeedRequired(false);
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+                != PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(
+                    this,
+                    new String[]{
+                            Manifest.permission.ACCESS_FINE_LOCATION
+                    },
+                    MY_LOCATION_REQUEST_CODE_ID);
+        } else {
+            double lat, lon;
+            String bestProvider = locationManager.getBestProvider(criteria, true);
+            Location currentLocation = locationManager.getLastKnownLocation(bestProvider);
+            if (currentLocation != null) {
+                lat = currentLocation.getLatitude();
+                lon = currentLocation.getLongitude();
+
+                Geocoder geocoder = new Geocoder(this, Locale.getDefault());
+                try {
+                    List<Address> addresses = geocoder.getFromLocation(lat, lon, 1);
+                    Toast.makeText(this, "Zip code is " + addresses.get(0).getPostalCode(), Toast.LENGTH_LONG).show();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    Toast.makeText(this, "Geocoder failed", Toast.LENGTH_SHORT).show();
+                }
+            }
+            else{
+                Toast.makeText(this, "Location unavailable", Toast.LENGTH_SHORT).show();
+            }
+        }
+
 
         for(int i = 0;i<10;i++){
             politicianList.add(new Politician());
@@ -52,12 +124,39 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             case R.id.loctionSearch:
                 //do search
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
+                // Create an edittext and set it to be the builder's view
+                final EditText et = new EditText(this);
+                et.setInputType(InputType.TYPE_TEXT_FLAG_CAP_CHARACTERS);
+                et.setGravity(Gravity.CENTER_HORIZONTAL);
+                builder.setView(et);
+
+                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        //search for stock
+                        findloc(et.getText().toString());
+                    }
+                });
+                builder.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        //cancelled
+                    }
+                });
+
+                builder.setTitle("Please enter a City, State, or Zipcode");
+
+                AlertDialog dialog = builder.create();
+                dialog.show();
                 return true;
 
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    public void findloc(String entry){
+        Toast.makeText(this, "Your entered " + entry, Toast.LENGTH_SHORT).show();
     }
 
     @Override

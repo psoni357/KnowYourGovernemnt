@@ -16,10 +16,12 @@
             android:id="@+id/twitterIcon"
             android:layout_width="47dp"
             android:layout_height="48dp"
-            android:layout_marginStart="44dp"
-            android:layout_marginBottom="16dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="24dp"
+            android:layout_marginBottom="8dp"
             android:contentDescription="@string/iconfortwitter"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/googleIcon"
             app:layout_constraintStart_toEndOf="@+id/facebookIcon"
             app:srcCompat="@drawable/twitter" />
 
@@ -27,8 +29,8 @@
             android:id="@+id/googleIcon"
             android:layout_width="47dp"
             android:layout_height="48dp"
-            android:layout_marginEnd="44dp"
-            android:layout_marginBottom="16dp"
+            android:layout_marginEnd="24dp"
+            android:layout_marginBottom="8dp"
             android:contentDescription="@string/iconforgoogle"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/youtubeIcon"
@@ -39,7 +41,7 @@
             android:layout_width="47dp"
             android:layout_height="48dp"
             android:layout_marginEnd="70dp"
-            android:layout_marginBottom="16dp"
+            android:layout_marginBottom="8dp"
             android:contentDescription="@string/iconforyoutube"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -124,6 +126,19 @@
             app:layout_constraintStart_toStartOf="@+id/guideline6"
             app:layout_constraintTop_toTopOf="@+id/guideline8" />
 
+        <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="106dp"
+            android:layout_height="90dp"
+            android:contentDescription="@string/politician_party"
+            android:scaleType="fitCenter"
+            app:layout_constraintBottom_toTopOf="@+id/guideline9"
+            app:layout_constraintEnd_toStartOf="@+id/guideline7"
+            app:layout_constraintHorizontal_bias="0.488"
+            app:layout_constraintStart_toStartOf="@+id/guideline6"
+            app:layout_constraintTop_toTopOf="@+id/guideline8"
+            app:layout_constraintVertical_bias="1.0" />
+
         <TextView
             android:id="@+id/locText"
             android:layout_width="0dp"
@@ -132,8 +147,8 @@
             android:textAlignment="center"
             android:textColor="@android:color/background_light"
             android:textSize="24sp"
-            app:layout_constraintEnd_toStartOf="@+id/guideline7"
-            app:layout_constraintStart_toStartOf="@+id/guideline6"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="location" />
 
@@ -241,8 +256,8 @@
             android:id="@+id/facebookIcon"
             android:layout_width="47dp"
             android:layout_height="48dp"
-            android:layout_marginStart="70dp"
-            android:layout_marginBottom="16dp"
+            android:layout_marginStart="68dp"
+            android:layout_marginBottom="8dp"
             android:contentDescription="@string/iconforfacebook"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"

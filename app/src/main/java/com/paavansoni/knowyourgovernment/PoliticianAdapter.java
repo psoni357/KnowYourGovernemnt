@@ -35,7 +35,7 @@ public class PoliticianAdapter extends RecyclerView.Adapter<MyViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        Log.d(TAG, "onBindViewHolder: FILLING VIEW HOLDER Note " + position);
+        Log.d(TAG, "onBindViewHolder: FILLING VIEW HOLDER " + position);
 
         Politician p = politicianList.get(position);
 
