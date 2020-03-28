@@ -155,7 +155,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     public void findloc(String entry){
-        Toast.makeText(this, "Your entered " + entry, Toast.LENGTH_SHORT).show();
+        new InfoDownloader(this).execute(entry);
     }
 
     @Override
