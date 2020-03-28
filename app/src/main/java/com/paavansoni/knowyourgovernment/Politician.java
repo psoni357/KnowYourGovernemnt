@@ -17,6 +17,8 @@ public class Politician implements Serializable {
     private String google;
     private String youtube;
 
+    private String photo;
+
     public Politician(){
         this.office = "office";
         this.name = "name";
@@ -29,9 +31,10 @@ public class Politician implements Serializable {
         this.twitter = null;
         this.google = null;
         this.youtube = null;
+        this.photo = null;
     }
 
-    public Politician(String office, String name, String party, String address, String number, String email, String website, String facebook, String twitter, String google, String youtube) {
+    public Politician(String office, String name, String party, String address, String number, String email, String website, String facebook, String twitter, String google, String youtube, String photo) {
         this.office = office;
         this.name = name;
         this.party = party;
@@ -43,6 +46,7 @@ public class Politician implements Serializable {
         this.twitter = twitter;
         this.google = google;
         this.youtube = youtube;
+        this.photo = photo;
     }
 
     public String getOffice() {
@@ -131,5 +135,12 @@ public class Politician implements Serializable {
 
     public void setYoutube(String youtube) {
         this.youtube = youtube;
+    }
+
+    public String getPhoto(){
+        return photo;
+    }
+    public void setPhoto(String photo){
+        this.photo = photo;
     }
 }

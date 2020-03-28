@@ -25,6 +25,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.IOException;
@@ -37,13 +38,16 @@ import static android.content.pm.PackageManager.PERMISSION_GRANTED;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, View.OnLongClickListener{
 
     private final List<Politician> politicianList = new ArrayList<>();
-    private static final String KEY = "AIzaSyB3z2KXWxAdNc6ahwrHih_bL390HiAP4qY";
+
     private RecyclerView recyclerView;
     private PoliticianAdapter mAdapter;
 
     private static int MY_LOCATION_REQUEST_CODE_ID = 329;
     private LocationManager locationManager;
     private Criteria criteria;
+
+    int pos; //position of note
+    Politician p; //note selected on tap
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,18 +59,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-
         criteria = new Criteria();
-
         // gps
         criteria.setPowerRequirement(Criteria.POWER_HIGH);
         criteria.setAccuracy(Criteria.ACCURACY_FINE);
-
         // network
         //criteria.setPowerRequirement(Criteria.POWER_LOW);
         //criteria.setAccuracy(Criteria.ACCURACY_MEDIUM);
-
-
         criteria.setAltitudeRequired(false);
         criteria.setBearingRequired(false);
         criteria.setSpeedRequired(false);
@@ -90,6 +89,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 try {
                     List<Address> addresses = geocoder.getFromLocation(lat, lon, 1);
                     Toast.makeText(this, "Zip code is " + addresses.get(0).getPostalCode(), Toast.LENGTH_LONG).show();
+                    new InfoDownloader(this).execute("" + addresses.get(0).getPostalCode());
                 } catch (IOException e) {
                     e.printStackTrace();
                     Toast.makeText(this, "Geocoder failed", Toast.LENGTH_SHORT).show();
@@ -100,11 +100,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         }
 
-
-        for(int i = 0;i<10;i++){
+        /*for(int i = 0;i<10;i++){
             politicianList.add(new Politician());
         }
-        mAdapter.notifyDataSetChanged();
+        mAdapter.notifyDataSetChanged();*/
     }
 
     @Override
@@ -162,13 +161,29 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View v) {
         Toast.makeText(this, "You made a short click", Toast.LENGTH_SHORT).show();
-        Intent intent2 = new Intent(this, OfficialActivity.class);
-        startActivity(intent2);
+        pos = recyclerView.getChildLayoutPosition(v);
+        p = politicianList.get(pos);
+
+        Intent intent = new Intent(this, OfficialActivity.class);
+
+        intent.putExtra("POLITICIAN",p);
+        startActivity(intent);
     }
 
     @Override
     public boolean onLongClick(View v) {
         Toast.makeText(this, "You made a long click", Toast.LENGTH_SHORT).show();
         return false;
+    }
+
+    public void recieveList(ArrayList<Politician> p) {
+        politicianList.clear();
+        politicianList.addAll(p);
+        mAdapter.notifyDataSetChanged();
+    }
+
+    public void displayLoc(String city, String state, String zip) {
+        TextView loc = findViewById(R.id.location);
+        loc.setText(city + ", " + state + " " + zip);
     }
 }
