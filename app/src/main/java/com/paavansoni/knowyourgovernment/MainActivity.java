@@ -1,5 +1,6 @@
 package com.paavansoni.knowyourgovernment;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -17,9 +18,11 @@ import android.location.Criteria;
 import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationManager;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
-import android.text.InputFilter;
 import android.text.InputType;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -37,17 +40,18 @@ import static android.content.pm.PackageManager.PERMISSION_GRANTED;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, View.OnLongClickListener{
 
+    private static final String TAG = "MainActivityTest";
     private final List<Politician> politicianList = new ArrayList<>();
 
     private RecyclerView recyclerView;
     private PoliticianAdapter mAdapter;
 
+    int pos; //position of note
+    Politician p; //note selected on tap
+
     private static int MY_LOCATION_REQUEST_CODE_ID = 329;
     private LocationManager locationManager;
     private Criteria criteria;
-
-    int pos; //position of note
-    Politician p; //note selected on tap
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +62,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         recyclerView.setAdapter(mAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
+        if(doNetCheck()){
+            startLoc();
+        }
+        else{
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+            builder.setMessage("Data cannot be accessed/loaded without an internet connection.");
+            builder.setTitle("No Network Connection");
+
+            AlertDialog dialog = builder.create();
+            dialog.show();
+        }
+    }
+
+    public void startLoc(){
+        Log.d(TAG, "startLoc:");
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         criteria = new Criteria();
         // gps
@@ -69,8 +89,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         criteria.setAltitudeRequired(false);
         criteria.setBearingRequired(false);
         criteria.setSpeedRequired(false);
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
-                != PERMISSION_GRANTED) {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PERMISSION_GRANTED) {
+            Log.d(TAG, "startLoc: asking for permission");
             ActivityCompat.requestPermissions(
                     this,
                     new String[]{
@@ -78,32 +98,56 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     },
                     MY_LOCATION_REQUEST_CODE_ID);
         } else {
-            double lat, lon;
-            String bestProvider = locationManager.getBestProvider(criteria, true);
-            Location currentLocation = locationManager.getLastKnownLocation(bestProvider);
-            if (currentLocation != null) {
-                lat = currentLocation.getLatitude();
-                lon = currentLocation.getLongitude();
+            setLocation();
+        }
+    }
 
-                Geocoder geocoder = new Geocoder(this, Locale.getDefault());
-                try {
-                    List<Address> addresses = geocoder.getFromLocation(lat, lon, 1);
-                    Toast.makeText(this, "Zip code is " + addresses.get(0).getPostalCode(), Toast.LENGTH_LONG).show();
-                    new InfoDownloader(this).execute("" + addresses.get(0).getPostalCode());
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    Toast.makeText(this, "Geocoder failed", Toast.LENGTH_SHORT).show();
-                }
+    @SuppressLint("SetTextI18n")
+    @Override
+    public void onRequestPermissionsResult(
+            int requestCode, @NonNull
+            String[] permissions, @NonNull
+                    int[] grantResults) {
+
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        if (requestCode == MY_LOCATION_REQUEST_CODE_ID) {
+            if (permissions[0].equals(Manifest.permission.ACCESS_FINE_LOCATION) &&
+                    grantResults[0] == PERMISSION_GRANTED) {
+                setLocation();
             }
             else{
-                Toast.makeText(this, "Location unavailable", Toast.LENGTH_SHORT).show();
+                TextView loc = findViewById(R.id.location);
+                loc.setText("No data for location");
             }
         }
 
-        /*for(int i = 0;i<10;i++){
-            politicianList.add(new Politician());
+    }
+
+    @SuppressLint("MissingPermission")
+    public void setLocation(){
+        Log.d(TAG, "startLoc: permission granted");
+        double lat, lon;
+        String bestProvider = locationManager.getBestProvider(criteria, true);
+        assert bestProvider != null;
+        Location currentLocation = locationManager.getLastKnownLocation(bestProvider);
+        if (currentLocation != null) {
+            lat = currentLocation.getLatitude();
+            lon = currentLocation.getLongitude();
+
+            Geocoder geocoder = new Geocoder(this, Locale.getDefault());
+            try {
+                List<Address> addresses = geocoder.getFromLocation(lat, lon, 1);
+                Toast.makeText(this, "Zip code is " + addresses.get(0).getPostalCode(), Toast.LENGTH_LONG).show();
+                new InfoDownloader(this).execute("" + addresses.get(0).getPostalCode());
+            } catch (IOException e) {
+                e.printStackTrace();
+                Toast.makeText(this, "Geocoder failed", Toast.LENGTH_SHORT).show();
+            }
         }
-        mAdapter.notifyDataSetChanged();*/
+        else{
+            Toast.makeText(this, "Location unavailable", Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
@@ -122,32 +166,43 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 return true;
 
             case R.id.loctionSearch:
-                //do search
-                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                if(doNetCheck()){
+                    //do search
+                    AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
-                // Create an edittext and set it to be the builder's view
-                final EditText et = new EditText(this);
-                et.setInputType(InputType.TYPE_TEXT_FLAG_CAP_CHARACTERS);
-                et.setGravity(Gravity.CENTER_HORIZONTAL);
-                builder.setView(et);
+                    // Create an edittext and set it to be the builder's view
+                    final EditText et = new EditText(this);
+                    et.setInputType(InputType.TYPE_TEXT_FLAG_CAP_CHARACTERS);
+                    et.setGravity(Gravity.CENTER_HORIZONTAL);
+                    builder.setView(et);
 
-                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        //search for stock
-                        findloc(et.getText().toString());
-                    }
-                });
-                builder.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        //cancelled
-                    }
-                });
+                    builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            //search for stock
+                            findloc(et.getText().toString());
+                        }
+                    });
+                    builder.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            //cancelled
+                        }
+                    });
 
-                builder.setTitle("Please enter a City, State, or Zipcode");
+                    builder.setTitle("Please enter a City, State, or Zipcode");
 
-                AlertDialog dialog = builder.create();
-                dialog.show();
-                return true;
+                    AlertDialog dialog = builder.create();
+                    dialog.show();
+                    return true;
+                }
+                else{
+                    AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+                    builder.setMessage("Data cannot be accessed/loaded without an internet connection.");
+                    builder.setTitle("No Network Connection");
+
+                    AlertDialog dialog = builder.create();
+                    dialog.show();
+                }
 
             default:
                 return super.onOptionsItemSelected(item);
@@ -184,6 +239,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     public void displayLoc(String city, String state, String zip) {
         TextView loc = findViewById(R.id.location);
-        loc.setText(city + ", " + state + " " + zip);
+        String location = city + ", " + state + " " + zip;
+        loc.setText(location);
+    }
+
+    private boolean doNetCheck() {
+        ConnectivityManager cm =
+                (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (cm == null) {
+            Toast.makeText(this, "Cannot access ConnectivityManager", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+
+        return netInfo != null && netInfo.isConnected();
     }
 }
