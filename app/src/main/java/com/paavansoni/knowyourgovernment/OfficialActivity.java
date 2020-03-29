@@ -282,9 +282,6 @@ public class OfficialActivity extends AppCompatActivity {
     }
 
     public void profileClicked(View v){
-        if(profile.getDrawable().getConstantState() == Objects.requireNonNull(ContextCompat.getDrawable(this, R.drawable.brokenimage)).getConstantState()){
-            return;
-        }
         if(profile.getDrawable().getConstantState() == Objects.requireNonNull(ContextCompat.getDrawable(this, R.drawable.missing)).getConstantState()){
             return;
         }
