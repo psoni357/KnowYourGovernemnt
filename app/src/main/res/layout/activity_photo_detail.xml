@@ -2,15 +2,16 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/backDetail"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".PhotoDetailActivity">
 
     <TextView
-        android:id="@+id/location"
+        android:id="@+id/locationDetail"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:background="#9C27B0"
         android:textAlignment="center"
         android:textColor="@android:color/background_light"
         android:textSize="24sp"
@@ -20,7 +21,7 @@
         tools:text="loaction" />
 
     <TextView
-        android:id="@+id/office"
+        android:id="@+id/officeDetail"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
@@ -29,43 +30,58 @@
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/location"
+        app:layout_constraintTop_toBottomOf="@+id/locationDetail"
         tools:text="office" />
 
     <TextView
-        android:id="@+id/name"
+        android:id="@+id/nameDetail"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:textAlignment="center"
+        android:textColor="#FFFFFF"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/office"
+        app:layout_constraintTop_toBottomOf="@+id/officeDetail"
         tools:text="name" />
 
     <ImageView
-        android:id="@+id/profile"
-        android:layout_width="340dp"
-        android:layout_height="352dp"
+        android:id="@+id/profileDetail"
+        android:layout_width="383dp"
+        android:layout_height="398dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
         android:contentDescription="@string/politician_party"
-        android:scaleType="fitCenter"
+        android:scaleType="centerInside"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/name" />
+        app:layout_constraintTop_toBottomOf="@+id/partyDetail" />
 
     <ImageView
-        android:id="@+id/separator"
+        android:id="@+id/partyIconDetail"
         android:layout_width="106dp"
         android:layout_height="90dp"
-        android:layout_marginTop="332dp"
+        android:layout_marginTop="344dp"
         android:contentDescription="@string/politician_party"
         android:scaleType="fitCenter"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/profile" />
+        app:layout_constraintTop_toTopOf="@+id/profileDetail" />
+
+    <TextView
+        android:id="@+id/partyDetail"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:textAlignment="center"
+        android:textColor="#FFFFFF"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/nameDetail"
+        tools:text="party" />
 </androidx.constraintlayout.widget.ConstraintLayout>

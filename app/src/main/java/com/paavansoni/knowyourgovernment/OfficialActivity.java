@@ -279,7 +279,11 @@ public class OfficialActivity extends AppCompatActivity {
     }
 
     public void profileClicked(View v){
+        Intent intent = new Intent(this, PhotoDetailActivity.class);
 
+        intent.putExtra("POLITICIAN",p);
+        intent.putExtra("LOCATION",location.getText().toString());
+        startActivity(intent);
     }
 
     public void partyIconClicked(View v){
