@@ -75,12 +75,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             dialog.show();
         }
     }
-
+/*
     private void doTest() {
         politicianList.add(new Politician());
         mAdapter.notifyDataSetChanged();
 
-    }
+    }*/
 
     public void startLoc(){
         Log.d(TAG, "startLoc:");

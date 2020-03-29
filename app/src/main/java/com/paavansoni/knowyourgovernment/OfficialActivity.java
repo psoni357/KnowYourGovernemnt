@@ -12,6 +12,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.util.Linkify;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -101,6 +102,7 @@ public class OfficialActivity extends AppCompatActivity {
             else if(p.getParty().equals("Republican Party")){
                 ConstraintLayout b = findViewById(R.id.back);
                 b.setBackgroundColor(0xFFE91E1E);
+                partyIcon.setImageResource(R.drawable.rep_logo);
                 partyIcon.setVisibility(View.VISIBLE);
             }
             else{
@@ -119,6 +121,7 @@ public class OfficialActivity extends AppCompatActivity {
                 address.setVisibility(View.VISIBLE);
 
                 address.setText(p.getAddress());
+                Linkify.addLinks(address,Linkify.ALL);
             }
 
             //phone number
@@ -131,6 +134,7 @@ public class OfficialActivity extends AppCompatActivity {
                 numberTag.setVisibility(View.VISIBLE);
 
                 number.setText(p.getNumber());
+                Linkify.addLinks(number,Linkify.ALL);
             }
 
             //email address
@@ -143,6 +147,7 @@ public class OfficialActivity extends AppCompatActivity {
                 emailTag.setVisibility(View.VISIBLE);
 
                 email.setText(p.getEmail());
+                Linkify.addLinks(email,Linkify.ALL);
             }
 
             //website link
@@ -155,6 +160,7 @@ public class OfficialActivity extends AppCompatActivity {
                 linkTag.setVisibility(View.VISIBLE);
 
                 link.setText(p.getWebsite());
+                Linkify.addLinks(link,Linkify.ALL);
             }
 
             //Social media icons
@@ -269,6 +275,27 @@ public class OfficialActivity extends AppCompatActivity {
             startActivity(intent);
         } catch (ActivityNotFoundException e) {
             startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.youtube.com/" + youtube)));
+        }
+    }
+
+    public void profileClicked(View v){
+
+    }
+
+    public void partyIconClicked(View v){
+        if(party.getText().toString().equals("Democratic Party")){
+            String site = "https://democrats.org/";
+
+            Intent i = new Intent(Intent.ACTION_VIEW);
+            i.setData(Uri.parse(site));
+            startActivity(i);
+        }
+        else if (party.getText().toString().equals("Republican Party")){
+            String site = "https://www.gop.com/";
+
+            Intent i = new Intent(Intent.ACTION_VIEW);
+            i.setData(Uri.parse(site));
+            startActivity(i);
         }
     }
 }
