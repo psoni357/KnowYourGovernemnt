@@ -220,7 +220,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
-        Toast.makeText(this, "You made a short click", Toast.LENGTH_SHORT).show();
         pos = recyclerView.getChildLayoutPosition(v);
         p = politicianList.get(pos);
 
@@ -234,7 +233,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public boolean onLongClick(View v) {
-        Toast.makeText(this, "You made a long click", Toast.LENGTH_SHORT).show();
         return false;
     }
 
