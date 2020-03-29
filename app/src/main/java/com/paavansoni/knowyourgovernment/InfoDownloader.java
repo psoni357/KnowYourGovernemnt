@@ -67,16 +67,16 @@ public class InfoDownloader extends AsyncTask<String, Void, String> {
                     JSONObject positionInfo = officials.getJSONObject(indexes.getInt(j));
 
                     String name = positionInfo.getString("name");//     person name
-                    String party = "";
-                    String address = "";
-                    String phones = "";
-                    String emails = "";
-                    String urls = "";
-                    String facebook = "";
-                    String twitter = "";
-                    String google = "";
-                    String youtube = "";
-                    String photoUrls = "";
+                    String party;
+                    String address = "missing";
+                    String phones = "missing";
+                    String emails = "missing";
+                    String urls = "missing";
+                    String facebook = "missing";
+                    String twitter = "missing";
+                    String google = "missing";
+                    String youtube = "missing";
+                    String photoUrls = "missing";
 
 
                     if(positionInfo.has("address")){
@@ -84,7 +84,7 @@ public class InfoDownloader extends AsyncTask<String, Void, String> {
                         JSONObject addressInfo = addressArray.getJSONObject(0);
 
                         if(addressInfo.has("line1")){
-                            address = address + addressInfo.getString("line1");
+                            address = addressInfo.getString("line1");
                         }
                         if(addressInfo.has("line2")){
                             address = address +  " " + addressInfo.getString("line2");

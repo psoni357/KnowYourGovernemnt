@@ -23,15 +23,15 @@ public class Politician implements Serializable {
         this.office = "office";
         this.name = "name";
         this.party = "party";
-        this.address = null;
-        this.number = null;
-        this.email = null;
-        this.website = null;
-        this.facebook = null;
-        this.twitter = null;
-        this.google = null;
-        this.youtube = null;
-        this.photo = null;
+        this.address = "";
+        this.number = "";
+        this.email = "";
+        this.website = "";
+        this.facebook = "";
+        this.twitter = "";
+        this.google = "";
+        this.youtube = "";
+        this.photo = "";
     }
 
     public Politician(String office, String name, String party, String address, String number, String email, String website, String facebook, String twitter, String google, String youtube, String photo) {

@@ -76,6 +76,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
+    private void doTest() {
+        politicianList.add(new Politician());
+        mAdapter.notifyDataSetChanged();
+
+    }
+
     public void startLoc(){
         Log.d(TAG, "startLoc:");
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
@@ -138,7 +144,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Geocoder geocoder = new Geocoder(this, Locale.getDefault());
             try {
                 List<Address> addresses = geocoder.getFromLocation(lat, lon, 1);
-                Toast.makeText(this, "Zip code is " + addresses.get(0).getPostalCode(), Toast.LENGTH_LONG).show();
                 new InfoDownloader(this).execute("" + addresses.get(0).getPostalCode());
             } catch (IOException e) {
                 e.printStackTrace();
@@ -219,9 +224,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         pos = recyclerView.getChildLayoutPosition(v);
         p = politicianList.get(pos);
 
+        TextView loc = findViewById(R.id.location);
         Intent intent = new Intent(this, OfficialActivity.class);
 
         intent.putExtra("POLITICIAN",p);
+        intent.putExtra("LOCATION",loc.getText().toString());
         startActivity(intent);
     }
 
@@ -235,6 +242,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         politicianList.clear();
         politicianList.addAll(p);
         mAdapter.notifyDataSetChanged();
+        //doTest();
     }
 
     public void displayLoc(String city, String state, String zip) {
