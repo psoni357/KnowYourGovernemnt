@@ -2,6 +2,7 @@ package com.paavansoni.knowyourgovernment;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.content.ContextCompat;
 
 import android.content.ActivityNotFoundException;
 import android.content.Context;
@@ -19,6 +20,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
+
+import java.util.Objects;
 
 public class OfficialActivity extends AppCompatActivity {
 
@@ -279,6 +282,12 @@ public class OfficialActivity extends AppCompatActivity {
     }
 
     public void profileClicked(View v){
+        if(profile.getDrawable().getConstantState() == Objects.requireNonNull(ContextCompat.getDrawable(this, R.drawable.brokenimage)).getConstantState()){
+            return;
+        }
+        if(profile.getDrawable().getConstantState() == Objects.requireNonNull(ContextCompat.getDrawable(this, R.drawable.missing)).getConstantState()){
+            return;
+        }
         Intent intent = new Intent(this, PhotoDetailActivity.class);
 
         intent.putExtra("POLITICIAN",p);

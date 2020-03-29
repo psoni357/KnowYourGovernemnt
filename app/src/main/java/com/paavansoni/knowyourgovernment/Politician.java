@@ -19,7 +19,7 @@ public class Politician implements Serializable {
 
     private String photo;
 
-    public Politician(){
+ /*   public Politician(){
         this.office = "office";
         this.name = "name";
         this.party = "party";
@@ -32,9 +32,9 @@ public class Politician implements Serializable {
         this.google = "missing";
         this.youtube = "missing";
         this.photo = "missing";
-    }
+    }*/
 
-    public Politician(String office, String name, String party, String address, String number, String email, String website, String facebook, String twitter, String google, String youtube, String photo) {
+    Politician(String office, String name, String party, String address, String number, String email, String website, String facebook, String twitter, String google, String youtube, String photo) {
         this.office = office;
         this.name = name;
         this.party = party;
@@ -49,98 +49,55 @@ public class Politician implements Serializable {
         this.photo = photo;
     }
 
-    public String getOffice() {
+    String getOffice() {
         return office;
-    }
-
-    public void setOffice(String office) {
-        this.office = office;
     }
 
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
+   /* public void setName(String name) {
         this.name = name;
-    }
+    }*/
 
-    public String getParty() {
+    String getParty() {
         return party;
     }
 
-    public void setParty(String party) {
-        this.party = party;
-    }
-
-    public String getAddress() {
+    String getAddress() {
         return address;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public String getNumber() {
+    String getNumber() {
         return number;
     }
 
-    public void setNumber(String number) {
-        this.number = number;
-    }
-
-    public String getEmail() {
+    String getEmail() {
         return email;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getWebsite() {
+    String getWebsite() {
         return website;
     }
 
-    public void setWebsite(String website) {
-        this.website = website;
-    }
-
-    public String getFacebook() {
+    String getFacebook() {
         return facebook;
     }
 
-    public void setFacebook(String facebook) {
-        this.facebook = facebook;
-    }
-
-    public String getTwitter() {
+    String getTwitter() {
         return twitter;
     }
 
-    public void setTwitter(String twitter) {
-        this.twitter = twitter;
-    }
-
-    public String getGoogle() {
+    String getGoogle() {
         return google;
     }
 
-    public void setGoogle(String google) {
-        this.google = google;
-    }
-
-    public String getYoutube() {
+    String getYoutube() {
         return youtube;
     }
 
-    public void setYoutube(String youtube) {
-        this.youtube = youtube;
-    }
-
-    public String getPhoto(){
+    String getPhoto(){
         return photo;
-    }
-    public void setPhoto(String photo){
-        this.photo = photo;
     }
 }
