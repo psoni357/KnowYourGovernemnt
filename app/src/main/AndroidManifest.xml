@@ -13,9 +13,12 @@
         android:roundIcon="@mipmap/ic_launcher"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".PhotoDetailActivity" />
-        <activity android:name=".OfficialActivity" />
-        <activity android:name=".AboutActivity" />
+        <activity android:name=".PhotoDetailActivity"
+            android:parentActivityName=".MainActivity" />
+        <activity android:name=".OfficialActivity"
+            android:parentActivityName=".MainActivity" />
+        <activity android:name=".AboutActivity"
+            android:parentActivityName=".MainActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
