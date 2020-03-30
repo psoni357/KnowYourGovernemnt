@@ -14,6 +14,8 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 
+import androidx.appcompat.app.AlertDialog;
+
 public class InfoDownloader extends AsyncTask<String, Void, String> {
     private static final String TAG = "InfoDownloaderAsync";
 
@@ -35,7 +37,13 @@ public class InfoDownloader extends AsyncTask<String, Void, String> {
     @Override
     protected void onPostExecute(String value) {
         if(value.equals("missing")){
+            AlertDialog.Builder builder = new AlertDialog.Builder(mainactivity);
 
+            builder.setMessage("Data on location not found.");
+            builder.setTitle("Location Not Found");
+
+            AlertDialog dialog = builder.create();
+            dialog.show();
         }
         else{
             ArrayList<Politician> p = parseJSON(value);
