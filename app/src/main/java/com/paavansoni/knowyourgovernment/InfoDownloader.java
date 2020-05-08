@@ -19,7 +19,7 @@ import androidx.appcompat.app.AlertDialog;
 public class InfoDownloader extends AsyncTask<String, Void, String> {
     private static final String TAG = "InfoDownloaderAsync";
 
-    private static final String KEY = "AIzaSyB3z2KXWxAdNc6ahwrHih_bL390HiAP4qY";
+    private static final String KEY = "<<API_KEY_GOES_HERE>>"; // Within the <<...>> is where the API key should go
     private static final String DATA_URL_START = "https://www.googleapis.com/civicinfo/v2/representatives?key=";
     private static final String DATA_URL_END = "&address=";
 
