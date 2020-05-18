@@ -1,6 +1,7 @@
 package com.paavansoni.knowyourgovernment;
 
 import android.annotation.SuppressLint;
+import android.content.res.Resources;
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -19,7 +20,7 @@ import androidx.appcompat.app.AlertDialog;
 public class InfoDownloader extends AsyncTask<String, Void, String> {
     private static final String TAG = "InfoDownloaderAsync";
 
-    private static final String KEY = "<<API_KEY_GOES_HERE>>"; // Within the <<...>> is where the API key should go
+    private static String KEY;
     private static final String DATA_URL_START = "https://www.googleapis.com/civicinfo/v2/representatives?key=";
     private static final String DATA_URL_END = "&address=";
 
@@ -32,6 +33,7 @@ public class InfoDownloader extends AsyncTask<String, Void, String> {
 
     InfoDownloader(MainActivity ma){
         mainactivity = ma;
+        KEY = mainactivity.getString(R.string.civics_api_key);
     }
 
     @Override
